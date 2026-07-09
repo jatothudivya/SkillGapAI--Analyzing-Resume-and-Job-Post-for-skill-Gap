@@ -9,3 +9,6 @@ Developed SkillGapAI, an AI-powered resume and job description analysis system t
 <img width="1043" height="577" alt="Screenshot 2026-07-09 163336" src="https://github.com/user-attachments/assets/95a28645-0c96-40a7-89aa-1d2f4a694728" />
 <img width="1000" height="552" alt="Screenshot 2026-07-09 163416" src="https://github.com/user-attachments/assets/a04eb69b-fbe1-41b0-b753-1fb07e5e6173" />
 <img width="977" height="547" alt="Screenshot 2026-07-09 163433" src="https://github.com/user-attachments/assets/c66a71a6-5dac-4090-927b-2247b99b8a51" />
+<img width="1362" height="761" alt="Screenshot 2026-07-09 164421" src="https://github.com/user-attachments/assets/f24ce884-7ecb-428d-9c7d-05a37d73477b" />
+<img width="1037" height="732" alt="Screenshot 2026-07-09 164456" src="https://github.com/user-attachments/assets/29dbcb13-772c-4651-a02d-fad91597226d" />
+<img width="1103" height="827" alt="Screenshot 2026-07-09 165121" src="https://github.com/user-attachments/assets/e11a4cc6-1764-4dc3-8f83-8f29e3bf3625" />
