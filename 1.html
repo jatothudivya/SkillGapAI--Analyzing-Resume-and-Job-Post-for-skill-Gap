@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SkillGapAI</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    margin: 0;
+}
+
+.container {
+    width: 420px;
+    margin: 60px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.result {
+    margin-top: 20px;
+    background: #f1f1f1;
+    padding: 12px;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 LOGIN -->
+<div class="container" id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- 🚀 MAIN APP -->
+<div class="container" id="app" style="display:none;">
+    <h1>SkillGapAI Analyzer</h1>
+
+    <label>Upload Resume (TXT)</label>
+    <input type="file" id="resume" accept=".txt">
+
+    <label>Upload Job Description (TXT)</label>
+    <input type="file" id="job" accept=".txt">
+
+    <button onclick="analyze()">Analyze Skill Gap</button>
+
+    <div class="result" id="result">
+        No analysis yet
+    </div>
+</div>
+
+<script>
+
+// 🔐 MULTIPLE ADMINS
+let admins = [
+    {user:"admin1", pass:"1234"},
+    {user:"admin2", pass:"abcd"},
+    {user:"divya", pass:"ai123"}
+];
+
+function login() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    let valid = admins.find(a => a.user === user && a.pass === pass);
+
+    if (valid) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("app").style.display = "block";
+    } else {
+        alert("Invalid login!");
+    }
+}
+
+// 📄 READ FILE
+function readFile(file) {
+    return new Promise((resolve) => {
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsText(file);
+    });
+}
+
+// 🧹 CLEAN TEXT
+function cleanText(text) {
+    return text
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9\s]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+// 🚀 ANALYZE FUNCTION
+async function analyze() {
+
+    let resumeFile = document.getElementById("resume").files[0];
+    let jobFile = document.getElementById("job").files[0];
+
+    if (!resumeFile || !jobFile) {
+        alert("Upload both files!");
+        return;
+    }
+
+    // Read files
+    let resumeRaw = await readFile(resumeFile);
+    let jobRaw = await readFile(jobFile);
+
+    // Clean text
+    let resumeText = cleanText(resumeRaw);
+    let jobText = cleanText(jobRaw);
+
+    // Skill database
+    let skills = [
+        "python","java","sql","machine learning",
+        "html","css","javascript","react","node",
+        "data analysis","deep learning"
+    ];
+
+    // Extract skills
+    let resumeSkills = skills.filter(s => resumeText.includes(s));
+    let jobSkills = skills.filter(s => jobText.includes(s));
+
+    let missingSkills = jobSkills.filter(s => !resumeSkills.includes(s));
+
+    // Display results
+    document.getElementById("result").innerHTML = `
+        <h3>Results:</h3>
+
+        <p><b>Cleaned Resume:</b><br>${resumeText}</p>
+        <p><b>Cleaned Job Description:</b><br>${jobText}</p>
+
+        <p><b>Resume Skills:</b> ${resumeSkills.join(", ") || "None"}</p>
+        <p><b>Job Requires:</b> ${jobSkills.join(", ") || "None"}</p>
+
+        <p style="color:red;"><b>Missing Skills:</b> 
+        ${missingSkills.join(", ") || "None 🎉"}
+        </p>
+    `;
+}
+
+</script>
+
+</body>
+</html>
